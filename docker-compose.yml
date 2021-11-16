@@ -5,12 +5,17 @@ services:
     container_name: ipfs
     image: ipfs/go-ipfs:latest
     ports:
-          - "4001:4001"
-          - "5001:5001"
-          - "8081:8080"
+      - "4001:4001"
+      - "5001:5001"
+      - "8081:8080"
     volumes:
       - ipfsstaging:/export 
       - ipfsdata:/data/ipfs
+    networks:
+      fullstack:
+        ipv4_address: 10.10.20.2
+        aliases:
+        - ipfs
   db:
     container_name: db
     image: postgres:12
@@ -20,11 +25,21 @@ services:
       POSTGRES_DB: webapp
       PGDATA: /data/postgres
     ports:
-          - "5432:5432"
+      - "5432:5432"
     volumes:
       - postgres:/data/postgres
     restart: unless-stopped
-
+    networks:
+      fullstack:
+        ipv4_address: 10.10.20.3
+        aliases:
+        - db
+networks:
+  fullstack:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.20.0/24
 volumes:
   postgres:
   ipfsdata:
