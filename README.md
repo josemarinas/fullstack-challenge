@@ -1,5 +1,21 @@
 # Fullstack Dev Challenge
 
+## Aditional notes
+
+Both client and server are provided with a Dockerfile to build iomages to both services. The docker compose was modified to  assign static ips to the services. In addition a `docker-compose.prod.yml` file was added with the intention of building and deploying both new services.
+
+A makefile was added:
+
+* `make up`: will deploy the base docker compose
+* `make up prod`: will build and deploy the prod docker compose
+
+### Possible imporvments:
+
+* Add enpoint to search all the files uploaded
+* Add delete capabilities
+* Add automated testing
+
+
 ## Description
 
 The objective is to develop a web application (no UX design necessary) where the following flows are supported:
