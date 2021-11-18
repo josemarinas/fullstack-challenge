@@ -1,39 +1,35 @@
 package db
 
-import (
-	"fmt"
-
-	uuid "github.com/satori/go.uuid"
-)
-
 func (i *Image) Create() error {
-	u := uuid.NewV4()
+	var err error
 	if err != nil {
 		return err
 	}
-	sqlString := fmt.Sprintf(`INSERT INTO images (id, cid) VALUES ('%s','%s')`, u.String(), i.Cid)
+	sqlString := `INSERT INTO images (cid) VALUES ($1) returning id`
 	prep, err := db.Prepare(sqlString)
 	if err != nil {
 		return err
 	}
-	_, err = prep.Exec()
+	defer prep.Close()
+	err = prep.QueryRow(i.Cid).Scan(&i.Id)
 	if err != nil {
 		return err
 	}
-	i.Id = u.String()
 	return nil
 }
 func (i *Image) GetById() error {
-	sqlString := fmt.Sprintf(`SELECT cid FROM images WHERE id='%s' LIMIT 1`, i.Id)
+	var err error
+	sqlString := `SELECT cid FROM images WHERE id=$1 LIMIT 1`
 	prep, err := db.Prepare(sqlString)
 	if err != nil {
 		return err
 	}
-	row, err := prep.Query()
-	if err != nil {
+	defer prep.Close()
+	row, err := prep.Query(i.Id)
+	if !row.Next() {
 		return err
 	}
-	row.Next()
+
 	err = row.Scan(&i.Cid)
 	if err != nil {
 		return err

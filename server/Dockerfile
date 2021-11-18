@@ -1,11 +1,9 @@
-FROM golang:alpine3.14 AS build_base
+FROM golang:1.16-alpine3.14 AS build_base
 ENV CGO_ENABLED=1
 ENV GO111MODULE=on
 WORKDIR /src
 # We want to populate the module cache based on the go.{mod,sum} files.
 COPY . .
-RUN rm go.mod go.sum
-RUN go mod init server
 RUN go mod tidy
 # Build the Go app
 RUN go build -o ./bin/server ./main.go

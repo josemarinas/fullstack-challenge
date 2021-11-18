@@ -18,29 +18,9 @@ var rootCmd = &cobra.Command{
 		conf.Setup()
 		db.Setup()
 		api.Start()
-		// conf.Setup()
-		// database.Setup()
-		// mail.TestConn()
-		// confObject := conf.Get()
-		// log.Info().Msg("Starting GraphQL API")
-		// srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
-
-		// router := chi.NewRouter()
-		// router.Use(middleware.Auth())
-		// router.Use(middleware.FingerPrint())
-
-		// router.Handle("/", playground.Handler("GraphQL Playground", confObject.Query))
-		// router.Handle(confObject.Query, srv)
-		// log.Printf("connect to http://%s:%d/ for GraphQL playground", confObject.Ip, confObject.Port)
-		// err := http.ListenAndServe(fmt.Sprintf(":%d", confObject.Port), router)
-		// if err != nil {
-		// 	log.Panic().Err(err)
-		// }
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }

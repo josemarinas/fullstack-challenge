@@ -12,15 +12,9 @@ import (
 )
 
 var db *sql.DB
-var err error
-
-type Store interface {
-	Create()
-	GetById()
-	Search()
-}
 
 func Setup() {
+	var err error
 	confObject := conf.Get()
 	wait := 1
 	log.Info().Msg("starting database connection")
@@ -53,6 +47,7 @@ func Setup() {
 }
 
 func connectAndPing(confObject *conf.Conf, connString string) error {
+	var err error
 	db, err = sql.Open(confObject.Database.Driver, connString)
 	if err != nil {
 		return err

@@ -34,7 +34,12 @@ services:
         ipv4_address: 10.10.20.3
         aliases:
         - db
+      databases:
+        aliases:
+          - fullstack
 networks:
+  databases:
+    external: true
   fullstack:
     driver: bridge
     ipam:
